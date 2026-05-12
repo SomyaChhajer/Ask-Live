@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audience | AskLive</title>
+    <link rel="stylesheet" href="audience.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-left">
+            <button class="menu-btn">&#9776;</button>
+            <h2 id="sessionTitle">Session</h2>
+        </div>
+        <div class="profile-container">
+            <div class="profile-icon" id="profileIcon">&#128100;</div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <p class="profile-email" id="profileEmail">user@gmail.com</p>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" id="tabQA">&#128172; Q&A</button>
+        <button class="tab" id="tabPolls">&#128202; Polls</button>
+    </div>
+
+    <!-- Q&A SECTION -->
+    <div class="section" id="qaSection">
+
+        <!-- ASK BOX -->
+        <div class="ask-box" id="askBox">
+            <div class="ask-input-row">
+                <span class="ask-icon">&#9998;</span>
+                <input type="text" id="questionInput" placeholder="Type your question...">
+            </div>
+            <!-- NAME INPUT (shown when ask box clicked) -->
+            <div class="ask-expanded hidden" id="askExpanded">
+                <input type="text" id="nameInput" placeholder="Your name (optional — leave blank for Anonymous)">
+                <div class="ask-actions">
+                    <button class="cancel-ask" id="cancelAsk">Cancel</button>
+                    <button class="submit-ask" id="submitAsk">Send Question</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" id="filterPopular">Popular</button>
+            <button class="filter-tab" id="filterRecent">Recent</button>
+            <span class="question-count" id="questionCount">0 questions</span>
+        </div>
+
+        <!-- QUESTIONS LIST -->
+        <div class="questions-list" id="questionsList">
+            <div class="empty-state">No questions yet. Be the first to ask!</div>
+        </div>
+
+    </div>
+
+    <!-- POLLS SECTION -->
+    <div class="section hidden" id="pollsSection">
+        <div class="empty-state polls-empty">
+            <p class="empty-icon">&#128202;</p>
+            <p class="empty-title">No polls yet</p>
+            <p class="empty-desc">The organizer hasn't started any polls yet. Check back soon!</p>
+        </div>
+    </div>
+
+    <script src="audience.js"></script>
+</body>
+
+</html>

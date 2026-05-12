@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Session | AskLive</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="background-glow glow1"></div>
+  <div class="background-glow glow2"></div>
+  <div class="login-container">
+    <div class="login-card">
+      <h1>Join Session</h1>
+      <p class="subtitle">Enter your name to join the Q&A</p>
+      <form>
+        <div class="input-box">
+          <label>Your Name</label>
+          <input type="text" id="userName" placeholder="Enter your name">
+          <p class="error name-error"></p>
+        </div>
+        <div class="input-box">
+          <label>Session Code</label>
+          <input type="text" id="sessionCode" placeholder="Enter session code">
+          <p class="error code-error"></p>
+        </div>
+        <button type="submit" class="login-btn">Join Now</button>
+      </form>
+    </div>
+  </div>
+  <script src="join.js"></script>
+</body>
+</html>

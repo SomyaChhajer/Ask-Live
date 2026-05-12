@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sessions | AskLive</title>
+  <link rel="stylesheet" href="create_session.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">AskLive</div>
+    <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="top-bar">
+      <h1>Live Sessions</h1>
+      <button class="create-btn" id="openModal">+ Create Event</button>
+    </div>
+
+    <!-- EVENTS LIST -->
+    <div class="events-grid" id="eventsGrid">
+      <p class="loading-text">Loading sessions...</p>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay hidden" id="modalOverlay">
+    <div class="modal">
+      <h2>Create Event</h2>
+      <div class="input-box">
+        <label>Event Name</label>
+        <input type="text" id="eventName" placeholder="Enter event name">
+      </div>
+      <div class="input-box">
+        <label>Session Code (auto-generated)</label>
+        <input type="text" id="eventCode" placeholder="e.g. ABC123">
+      </div>
+      <div class="input-box">
+        <label>Start Date & Time</label>
+        <input type="datetime-local" id="startDate">
+      </div>
+      <div class="input-box">
+        <label>End Date & Time</label>
+        <input type="datetime-local" id="endDate">
+      </div>
+      <p class="error-msg" id="errorMsg"></p>
+      <div class="modal-buttons">
+        <button class="cancel-btn" id="closeModal">Cancel</button>
+        <button class="submit-btn" id="submitEvent">Create</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="create_session.js"></script>
+</body>
+
+</html>

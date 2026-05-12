@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Present Mode | AskLive</title>
+  <link rel="stylesheet" href="present.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- MAIN LAYOUT -->
+  <div class="present-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <div class="sidebar">
+      <div class="qr-box">
+        <div id="sidebarQR"></div>
+      </div>
+      <p class="join-text">Join at</p>
+      <p class="join-site">asklive.com</p>
+      <p class="join-code" id="sidebarCode">#CODE</p>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <!-- RIGHT CONTENT -->
+    <div class="questions-area">
+
+      <!-- TOP BAR -->
+      <div class="questions-header">
+        <span class="questions-title" id="headerTitle">
+          &#128172; Top questions (<span id="questionCount">0</span>)
+        </span>
+        <div class="header-right">
+          <span class="participant-count" id="participantCount">
+            &#128100; 0
+          </span>
+          <span class="view-badge" id="viewBadge">Q&A</span>
+        </div>
+      </div>
+
+      <!-- Q&A VIEW -->
+      <div class="questions-list" id="questionsList">
+        <div class="empty-state">No questions yet. Waiting for audience...</div>
+      </div>
+
+      <!-- POLL VIEW -->
+      <div class="poll-view" id="pollView" style="display:none;">
+        <div class="poll-view-empty" id="pollViewEmpty">
+          <p>&#128202;</p>
+          <p>No active poll right now</p>
+        </div>
+        <div class="poll-view-content hidden" id="pollViewContent">
+          <p class="poll-view-question" id="pollViewQuestion"></p>
+          <div class="poll-view-bars" id="pollViewBars"></div>
+          <p class="poll-view-votes">Total votes: <span id="pollViewTotal">0</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="bottom-bar">
+    <div class="bottom-left">
+      <button class="add-btn" id="toggleViewBtn">+</button>
+      <span class="showing-text" id="showingText">Showing Q&A</span>
+      <button class="icon-btn">&#9881;</button>
+      <button class="icon-btn" id="fullscreenBtn">&#x26F6;</button>
+    </div>
+  </div>
+
+  <script src="present.js"></script>
+</body>
+
+</html>

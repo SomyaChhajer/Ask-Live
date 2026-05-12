@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event | AskLive</title>
+    <link rel="stylesheet" href="event.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-left">
+            <button class="back-btn" onclick="window.location.href='create_session.html'">&#8592;</button>
+            <div class="event-info">
+                <h2 id="eventTitle">Event Name</h2>
+                <p id="eventDates">00 Jan - 00 Jan 2026</p>
+            </div>
+        </div>
+        <div class="top-center">
+            <p id="eventCode" class="event-code">#CODE</p>
+            <span class="public-tag">Public</span>
+        </div>
+        <div class="top-right">
+            <button class="present-btn" id="presentBtn">&#9654; Present Mode</button>
+            <button class="share-btn">&#128279; Share</button>
+            <div class="profile-icon" id="profileIcon">A</div>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab active" id="tabQA">Audience Q&A</button>
+        <button class="tab" id="tabPolls">Live Polls</button>
+        <button class="tab" id="tabAnalytics">Analytics</button>
+    </div>
+
+    <!-- CONTENT -->
+    <!-- CONTENT -->
+    <div class="content" id="mainContent">
+
+        <!-- Q&A CONTENT -->
+        <div id="qaContent" style="display:flex;flex:1;height:100%;">
+            <!-- LEFT PANEL -->
+            <div class="panel left-panel">
+                <div class="panel-tabs">
+                    <span class="panel-tab active">For review</span>
+                    <span class="panel-tab">
+                        Moderation
+                        <label class="toggle">
+                            <input type="checkbox" id="moderationToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </span>
+                    <span class="panel-tab">Live</span>
+                </div>
+                <div class="panel-body" id="leftPanelBody">
+                    <div class="panel-empty">
+                        <p class="panel-empty-title">Moderation turned off</p>
+                        <p class="panel-empty-desc">Audience questions automatically appear live, visible to everyone.
+                        </p>
+                        <button class="moderation-btn" id="moderationBtn">&#128274; Turn on moderation</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL -->
+            <div class="panel right-panel">
+                <div class="right-panel-top">
+                    <p class="qa-open-title">Your Q&A is open</p>
+                    <p class="qa-open-desc">
+                        Audience can join at <strong>asklive.com</strong> using
+                        <strong id="qaCode">#CODE</strong>
+                    </p>
+                    <div class="qa-buttons">
+                        <button class="qa-btn outline" id="trySendBtn">Try sending a question</button>
+                        <button class="qa-btn solid">Share event</button>
+                    </div>
+                </div>
+                <div class="live-questions-header">
+                    <span>&#128172; Live Questions (<span id="liveCount">0</span>)</span>
+                    <span class="live-dot">&#9679; Live</span>
+                </div>
+                <div class="live-questions-list" id="liveQuestionsList">
+                    <div class="empty-state-small">No questions yet...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POLLS CONTENT -->
+        <div id="pollsContent" style="display:none;flex:1;height:100%;overflow:hidden;">
+
+            <!-- LEFT: POLLS LIST -->
+            <div class="panel left-panel" style="overflow-y:auto;">
+                <div class="polls-top-bar">
+                    <button class="create-poll-top-btn" id="createPollBtn">+ Create Poll</button>
+                </div>
+                <div id="pollsListContainer">
+                    <div class="empty-state-small">No polls yet. Create one!</div>
+                </div>
+                <div class="create-poll-row" id="createPollRow">
+                    <button class="add-poll-row-btn" id="addPollRowBtn">+ Create a poll</button>
+                </div>
+            </div>
+
+            <!-- RIGHT: LIVE RESULTS -->
+            <div class="panel right-panel" id="pollsRightPanel">
+                <div class="run-polls-empty" id="runPollsEmpty">
+                    <p class="run-polls-title">Run your polls</p>
+                    <p class="run-polls-desc">
+                        Activate a poll and your audience can vote at
+                        <strong>asklive.com</strong> using the event code
+                        <strong>#<span id="runPollCode"></span></strong>
+                    </p>
+                </div>
+                <div class="poll-live-results hidden" id="pollLiveResults">
+                    <p class="live-results-question" id="liveResultsQuestion"></p>
+                    <div class="live-results-bars" id="liveResultsBars"></div>
+                    <p class="live-results-votes">Total votes: <span id="totalVotes">0</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- POLL TYPE SELECTION -->
+    <div class="poll-type-select-overlay hidden" id="pollTypeSelect">
+        <div class="poll-type-select-modal">
+            <h2>Create your poll</h2>
+            <p>Choose a poll type to engage your audience</p>
+            <div class="poll-types-grid">
+                <div class="poll-type-card" data-type="multiple">
+                    <span class="poll-type-icon">&#9776;</span>
+                    <p>Multiple Choice</p>
+                </div>
+                <div class="poll-type-card" data-type="wordcloud">
+                    <span class="poll-type-icon">&#9729;</span>
+                    <p>Word Cloud</p>
+                </div>
+                <div class="poll-type-card" data-type="rating">
+                    <span class="poll-type-icon">&#11088;</span>
+                    <p>Rating</p>
+                </div>
+                <div class="poll-type-card" data-type="opentext">
+                    <span class="poll-type-icon">&#128172;</span>
+                    <p>Open Text</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POLL MODAL -->
+    <div class="modal-overlay hidden" id="pollModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="pollModalTitle">Multiple Choice</h2>
+                <button class="close-modal-btn" id="closePollModal">&#10005;</button>
+            </div>
+
+            <div class="input-box">
+                <label>Question</label>
+                <input type="text" id="pollQuestion" placeholder="What would you like to ask?">
+            </div>
+
+            <!-- MULTIPLE CHOICE OPTIONS -->
+            <div id="multipleChoiceFields" class="poll-extra hidden">
+                <label>Options</label>
+                <div id="optionsList">
+                    <div class="option-row">
+                        <input type="text" placeholder="Option 1" class="option-input">
+                    </div>
+                    <div class="option-row">
+                        <input type="text" placeholder="Option 2" class="option-input">
+                    </div>
+                </div>
+                <button class="add-option-btn" id="addOptionBtn">+ Add option</button>
+            </div>
+
+            <!-- RATING FIELDS -->
+            <div id="ratingFields" class="poll-extra hidden">
+                <label>Scale (1 to ?)</label>
+                <div class="rating-scale-row">
+                    <span>1</span>
+                    <input type="range" min="2" max="10" value="5" id="ratingScale">
+                    <span id="ratingScaleVal">5</span>
+                </div>
+            </div>
+
+            <!-- OPEN TEXT / WORD CLOUD — no extra fields needed -->
+
+            <p class="error-msg" id="pollError"></p>
+
+            <div class="modal-buttons">
+                <button class="cancel-btn" id="cancelPollModal">Cancel</button>
+                <button class="submit-btn" id="submitPoll">Save Poll</button>
+            </div>
+        </div>
+    </div>
+    <!-- SHARE MODAL -->
+    <div class="modal-overlay hidden" id="shareModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Share Session</h2>
+                <button class="close-modal-btn" id="closeShareModal">&#10005;</button>
+            </div>
+            <p class="share-subtitle">Share this link or QR code with your audience</p>
+
+            <!-- URL BOX -->
+            <div class="share-url-box">
+                <span id="shareUrl">asklive.com/join?code=ABC123</span>
+                <button class="copy-btn" id="copyBtn">Copy</button>
+            </div>
+
+            <!-- QR CODE -->
+            <div class="qr-container">
+                <div id="qrCanvas"></div>
+            </div>
+
+            <button class="download-btn" id="downloadQR">&#8681; Download QR Code</button>
+        </div>
+    </div>
+    <script src="event.js"></script>
+</body>
+
+</html>
