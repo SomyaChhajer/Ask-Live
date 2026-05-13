@@ -84,15 +84,8 @@ loginBtn.addEventListener("click", () => {
 // JOIN BUTTON
 // JOIN BUTTON
 joinBtn.addEventListener("click", () => {
-  if(token && userEmail) {
-    // LOGGED IN → GO TO JOIN SESSION PAGE
-    window.location.href = "join_session.html";
-  } else {
-    // NOT LOGGED IN → GO TO SIGNUP
-    window.location.href = "signup.html?from=join";
-  }
+  window.location.href = "join_session.html";
 });
-
 
 // PROFILE DROPDOWN
 
