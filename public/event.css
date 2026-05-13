@@ -4,6 +4,9 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+html, body {
+  overflow-x: hidden;
+}
 body {
   background: #0f172a;
   color: white;
@@ -970,21 +973,32 @@ input:checked + .slider::before {
     flex:1;
     text-align:center;
   }
-  .content{
+    .content{
     flex-direction:column;
     height:auto;
     overflow-y:auto;
-    min-height:calc(100vh - 130px);
+    overflow-x:hidden;
+    width:100%;
   }
   .panel{
     flex:none;
-    min-height:50vh;
+    width:100%;
+    min-height:auto;
     border-right:none;
     border-bottom:1px solid rgba(255,255,255,0.08);
   }
   .right-panel{
-    min-height:50vh;
+    width:100%;
+    min-height:auto;
     border-bottom:none;
+  }
+  #qaContent{
+    flex-direction:column !important;
+    width:100% !important;
+  }
+  #pollsContent{
+    flex-direction:column !important;
+    width:100% !important;
   }
   .panel-tabs{
     padding:0 10px;
@@ -1030,9 +1044,7 @@ input:checked + .slider::before {
     padding:12px;
     font-size:13px;
   }
-  #pollsContent{
-    flex-direction:column !important;
-  }
+
   .run-polls-title{
     font-size:18px;
   }
