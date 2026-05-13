@@ -461,88 +461,86 @@ body {
     width:200px;
     min-width:200px;
   }
-  .qr-box img,
-  .qr-box canvas{
-    width:120px !important;
-    height:120px !important;
-  }
   .join-site{
-    font-size:18px;
+    font-size:17px;
   }
   .join-code{
-    font-size:22px;
+    font-size:20px;
   }
   .question-text{
     font-size:16px;
   }
 }
 @media(max-width:768px){
+  body{
+    overflow-y:auto;
+    height:auto;
+  }
   .present-layout{
     flex-direction:column;
+    height:auto;
   }
   .sidebar{
     width:100%;
     min-width:unset;
     flex-direction:row;
     justify-content:center;
-    gap:20px;
-    padding:16px 20px;
+    align-items:center;
+    gap:16px;
+    padding:12px 16px;
     border-right:none;
     border-bottom:1px solid rgba(255,255,255,0.08);
+    flex-wrap:wrap;
   }
   .qr-box{
     margin-bottom:0;
+    padding:10px;
+    border-radius:12px;
   }
   .qr-box img,
   .qr-box canvas{
-    width:80px !important;
-    height:80px !important;
+    width:70px !important;
+    height:70px !important;
   }
   .join-text{
-    font-size:13px;
+    font-size:12px;
   }
   .join-site{
-    font-size:16px;
+    font-size:14px;
   }
   .join-code{
-    font-size:18px;
+    font-size:16px;
+  }
+  .questions-area{
+    height:auto;
   }
   .questions-header{
-    padding:14px 16px;
+    padding:12px 14px;
+    flex-wrap:wrap;
+    gap:6px;
   }
   .questions-title{
-    font-size:15px;
+    font-size:14px;
   }
   .questions-list{
-    padding:14px 16px;
-    gap:12px;
-  }
-  .question-text{
-    font-size:15px;
-  }
-  .bottom-bar{
-    padding:0 16px;
-    height:60px;
-  }
-  .poll-view-question{
-    font-size:20px;
-  }
-  .poll-view{
-    padding:16px;
-  }
-}
-@media(max-width:480px){
-  .sidebar{
-    flex-wrap:wrap;
+    padding:12px 14px;
     gap:10px;
   }
-  .questions-header{
-    flex-wrap:wrap;
-    gap:8px;
+  .question-card{
+    padding:14px 16px 44px 16px;
   }
-  .participant-count{
-    font-size:12px;
-    padding:3px 10px;
+  .question-text{
+    font-size:14px;
+  }
+  .poll-view{
+    padding:14px;
+  }
+  .poll-view-question{
+    font-size:18px;
+  }
+  .bottom-bar{
+    padding:0 14px;
+    height:56px;
   }
   .bottom-left{
     gap:10px;
@@ -550,5 +548,47 @@ body {
   }
   .showing-text{
     font-size:12px;
+  }
+  .participant-count{
+    font-size:12px;
+    padding:3px 10px;
+  }
+}
+@media(max-width:480px){
+  .sidebar{
+    gap:10px;
+    padding:10px 12px;
+  }
+  .qr-box img,
+  .qr-box canvas{
+    width:56px !important;
+    height:56px !important;
+  }
+  .join-site{
+    font-size:13px;
+  }
+  .join-code{
+    font-size:14px;
+  }
+  .question-text{
+    font-size:13px;
+  }
+  .poll-view-question{
+    font-size:16px;
+  }
+  .questions-title{
+    font-size:13px;
+  }
+  .bottom-left{
+    gap:8px;
+    padding:6px 12px;
+  }
+  .showing-text{
+    font-size:11px;
+  }
+  .add-btn{
+    width:30px;
+    height:30px;
+    font-size:16px;
   }
 }

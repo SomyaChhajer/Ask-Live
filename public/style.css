@@ -4,6 +4,10 @@
   box-sizing:border-box;
   font-family:'Poppins',sans-serif;
 }
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 body{
   background:#0f172a;
@@ -356,91 +360,98 @@ footer{
 /* RESPONSIVE */
 
 @media(max-width:768px){
-
   nav{
-    flex-direction:column;
-    gap:20px;
-  }
-
-  .nav-links{
-    gap:20px;
-    flex-wrap:wrap;
-    justify-content:center;
-  }
-
-  .hero h1{
-    font-size:48px;
-  }
-
-
-}
-@media(max-width:768px){
-  nav{
-    padding:16px 5%;
+    padding:14px 5%;
     flex-direction:row;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
     gap:10px;
+    justify-content:space-between;
   }
   .logo{
-    font-size:22px;
+    font-size:20px;
   }
   .nav-buttons{
     gap:8px;
   }
   .login-btn{
-    padding:9px 16px;
-    font-size:13px;
+    padding:8px 14px;
+    font-size:12px;
   }
   .join-btn{
-    padding:9px 16px;
-    font-size:13px;
+    padding:8px 14px;
+    font-size:12px;
   }
   .hero{
-    padding:120px 5% 60px;
+    padding:110px 5% 60px;
   }
   .hero h1{
-    font-size:36px;
+    font-size:34px;
   }
   .hero p{
-    font-size:15px;
+    font-size:14px;
   }
   .primary-btn,
   .secondary-btn,
   .create-session-btn{
-    padding:12px 24px;
+    padding:12px 22px;
     font-size:14px;
   }
   .features{
     padding:60px 5%;
   }
   .section-title{
-    font-size:28px;
-    margin-bottom:40px;
+    font-size:26px;
+    margin-bottom:36px;
   }
   .card{
-    padding:24px;
+    padding:22px;
   }
   .card h3{
-    font-size:20px;
+    font-size:18px;
   }
   .profile-dropdown{
-    right:-10px;
-    width:200px;
+    right:0;
+    width:190px;
   }
 }
 @media(max-width:480px){
+  nav{
+    padding:12px 4%;
+  }
+  .logo{
+    font-size:18px;
+  }
+  .login-btn{
+    padding:7px 12px;
+    font-size:11px;
+  }
+  .join-btn{
+    padding:7px 12px;
+    font-size:11px;
+  }
   .hero h1{
-    font-size:28px;
+    font-size:26px;
+  }
+  .hero p{
+    font-size:13px;
   }
   .hero-buttons{
     flex-direction:column;
-    align-items:center;
-    gap:12px;
+    align-items:stretch;
+    gap:10px;
+    padding:0 10px;
   }
   .primary-btn,
   .secondary-btn,
   .create-session-btn{
     width:100%;
     text-align:center;
+    padding:13px;
+  }
+  .section-title{
+    font-size:22px;
+  }
+  .cards{
+    grid-template-columns:1fr;
   }
 }

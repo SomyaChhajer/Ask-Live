@@ -491,157 +491,111 @@ body {
   display: none;
 }
 
-@media(max-width: 600px) {
-  .section {
-    padding: 16px 14px 100px;
+@media(max-width:768px){
+  .top-bar{
+    padding:12px 16px;
+    height:58px;
   }
-  .top-bar h2 {
-    font-size: 15px;
+  .top-bar h2{
+    font-size:15px;
+    max-width:180px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
-}
-/* HIDE HAMBURGER ON DESKTOP */
-/* MOBILE & TABLET RESPONSIVE */
-@media(max-width:768px) {
-  .top-bar {
-    padding: 12px 16px;
-    height: 60px;
+  .tabs{
+    margin-top:58px;
+    top:58px;
   }
-  .top-bar h2 {
-    font-size: 16px;
-    font-weight: 600;
+  .tab{
+    font-size:13px;
+    padding:13px 10px;
   }
-  .tabs {
-    margin-top: 60px;
-    top: 60px;
+  .section{
+    padding:14px 12px 80px;
+    max-width:100%;
   }
-  .tab {
-    font-size: 14px;
-    padding: 14px 10px;
+  .ask-box{
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:14px;
   }
-  .section {
-    padding: 16px 14px 100px;
-    max-width: 100%;
+  .ask-input-row input{
+    font-size:14px;
   }
-  .ask-box {
-    border-radius: 12px;
-    padding: 14px 16px;
-    margin-bottom: 0;
-    top: 0;
+  .filter-tabs{
+    margin-top:0;
+    padding-bottom:10px;
   }
-  .ask-box::before {
-    content: 'Ask the speaker';
-    display: block;
-    font-size: 12px;
-    color: #64748b;
-    margin-bottom: 8px;
-    font-weight: 500;
+  .filter-tab{
+    padding:7px 12px;
+    font-size:13px;
   }
-  .ask-input-row input {
-    font-size: 14px;
+  .question-card{
+    padding:12px 14px;
+    border-radius:12px;
   }
-  .ask-icon {
-    font-size: 18px;
+  .question-text{
+    font-size:14px;
   }
-  .filter-tabs {
-    margin-top: 16px;
-    padding-bottom: 10px;
+  .author-name{
+    font-size:13px;
   }
-  .filter-tab {
-    padding: 8px 14px;
-    font-size: 13px;
+  .like-btn{
+    padding:5px 10px;
+    font-size:12px;
   }
-  .question-count {
-    font-size: 12px;
+  .audience-poll-card{
+    padding:16px;
   }
-  .question-card {
-    padding: 14px 16px 44px 16px;
-    border-radius: 12px;
+  .audience-poll-question{
+    font-size:15px;
   }
-  .question-text {
-    font-size: 14px;
+  .poll-option{
+    padding:10px 12px;
+    font-size:13px;
   }
-  .author-name {
-    font-size: 13px;
+  .rating-star{
+    width:38px;
+    height:38px;
+    font-size:14px;
   }
-  .like-btn {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
-  .empty-state {
-    padding: 40px 20px;
-    font-size: 14px;
-  }
-  .audience-poll-card {
-    padding: 16px;
-    border-radius: 12px;
-  }
-  .audience-poll-question {
-    font-size: 15px;
-  }
-  .poll-option {
-    padding: 10px 14px;
-    font-size: 14px;
-  }
-  .rating-star {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
-  }
-  .submit-poll-btn {
-    padding: 12px;
-    font-size: 14px;
-  }
-  .profile-dropdown {
-    width: 180px;
-    top: 46px;
-  }
-  .ask-expanded input {
-    padding: 10px 14px;
-    font-size: 13px;
-  }
-  .ask-actions {
-    gap: 8px;
-  }
-  .cancel-ask {
-    padding: 9px 16px;
-    font-size: 13px;
-  }
-  .submit-ask {
-    padding: 9px 18px;
-    font-size: 13px;
+  .profile-dropdown{
+    width:180px;
+    top:46px;
   }
 }
-
-@media(max-width:480px) {
-  .top-bar h2 {
-    font-size: 14px;
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+@media(max-width:480px){
+  .top-bar h2{
+    font-size:13px;
+    max-width:140px;
   }
-  .ask-actions {
-    flex-direction: column;
+  .tab{
+    font-size:12px;
+    padding:12px 8px;
+  }
+  .ask-actions{
+    flex-direction:column;
+    gap:8px;
   }
   .cancel-ask,
-  .submit-ask {
-    width: 100%;
-    text-align: center;
+  .submit-ask{
+    width:100%;
+    text-align:center;
+    padding:10px;
   }
-  .tab {
-    font-size: 13px;
-    padding: 12px 8px;
+  .rating-star{
+    width:34px;
+    height:34px;
+    font-size:13px;
   }
-  .rating-star {
-    width: 36px;
-    height: 36px;
-    font-size: 13px;
+  .empty-state{
+    padding:30px 16px;
+    font-size:13px;
   }
 }
-
-/* HIDE HAMBURGER ON DESKTOP */
-@media(min-width:768px) {
-  .menu-btn {
-    display: none;
+@media(min-width:768px){
+  .menu-btn{
+    display:none;
   }
 }

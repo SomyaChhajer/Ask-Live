@@ -155,37 +155,33 @@ body{
 
 /* RESPONSIVE */
 
-@media(max-width:500px){
-
-  .login-card{
-    padding:35px 25px;
-  }
-
-  .login-card h1{
-    font-size:30px;
-  }
-
-}
 @media(max-width:768px){
   .login-card{
-    padding:35px 28px;
-    border-radius:24px;
+    padding:32px 24px;
+    border-radius:22px;
   }
   .login-card h1{
-    font-size:32px;
+    font-size:30px;
   }
 }
 @media(max-width:400px){
   .login-card{
-    padding:28px 20px;
+    padding:24px 18px;
+    border-radius:18px;
   }
   .login-card h1{
-    font-size:26px;
+    font-size:24px;
+  }
+  .subtitle{
+    font-size:13px;
+    margin-bottom:24px;
   }
   .input-box input{
     padding:12px;
+    font-size:14px;
   }
   .login-btn{
     padding:13px;
+    font-size:15px;
   }
 }

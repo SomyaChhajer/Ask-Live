@@ -922,226 +922,181 @@ input:checked + .slider::before {
   position: relative;
 }
 @media(max-width:900px){
-  .top-right .present-btn{
+  .present-btn{
+    display:none;
+  }
+  .top-center{
     display:none;
   }
 }
-@media(max-width:900px) {
-  .present-btn {
-    display: none;
+@media(max-width:768px){
+  .top-bar{
+    padding:10px 14px;
   }
-  .top-center {
-    display: none;
+  .event-info h2{
+    font-size:14px;
+    max-width:120px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
-}
-
-@media(max-width:768px) {
-  /* TOP BAR */
-  .top-bar {
-    padding: 10px 14px;
+  .event-info p{
+    display:none;
   }
-  .event-info h2 {
-    font-size: 14px;
-    max-width: 130px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .share-btn{
+    padding:7px 12px;
+    font-size:12px;
   }
-  .event-info p {
-    display: none;
+  .profile-icon{
+    width:34px;
+    height:34px;
+    font-size:13px;
   }
-  .share-btn {
-    padding: 7px 12px;
-    font-size: 12px;
+  .top-right{
+    gap:8px;
   }
-  .profile-icon {
-    width: 34px;
-    height: 34px;
-    font-size: 14px;
+  .tabs{
+    padding:0;
+    overflow-x:auto;
+    scrollbar-width:none;
   }
-  .top-right {
-    gap: 8px;
+  .tabs::-webkit-scrollbar{
+    display:none;
   }
-
-  /* TABS */
-  .tabs {
-    padding: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
+  .tab{
+    padding:12px 14px;
+    font-size:13px;
+    white-space:nowrap;
+    flex:1;
+    text-align:center;
   }
-  .tabs::-webkit-scrollbar {
-    display: none;
+  .content{
+    flex-direction:column;
+    height:auto;
+    overflow-y:auto;
+    min-height:calc(100vh - 130px);
   }
-  .tab {
-    padding: 12px 16px;
-    font-size: 13px;
-    white-space: nowrap;
-    flex: 1;
-    text-align: center;
+  .panel{
+    flex:none;
+    min-height:50vh;
+    border-right:none;
+    border-bottom:1px solid rgba(255,255,255,0.08);
   }
-
-  /* CONTENT — STACK PANELS VERTICALLY */
-  .content {
-    flex-direction: column;
-    height: auto;
-    overflow-y: auto;
+  .right-panel{
+    min-height:50vh;
+    border-bottom:none;
   }
-  .panel {
-    border-right: none;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    min-height: auto;
+  .panel-tabs{
+    padding:0 10px;
+    overflow-x:auto;
+    scrollbar-width:none;
   }
-  .right-panel {
-    border-bottom: none;
+  .panel-tabs::-webkit-scrollbar{
+    display:none;
   }
-
-  /* PANEL TABS */
-  .panel-tabs {
-    padding: 0 10px;
-    overflow-x: auto;
-    scrollbar-width: none;
+  .panel-tab{
+    padding:11px 12px;
+    font-size:12px;
+    white-space:nowrap;
   }
-  .panel-tabs::-webkit-scrollbar {
-    display: none;
+  .panel-body{
+    padding:20px 16px;
   }
-  .panel-tab {
-    padding: 12px 12px;
-    font-size: 12px;
-    white-space: nowrap;
+  .panel-empty-title{
+    font-size:16px;
   }
-
-  /* PANEL BODY */
-  .panel-body {
-    padding: 24px 20px;
+  .panel-empty-desc{
+    font-size:13px;
   }
-  .panel-empty-title {
-    font-size: 17px;
+  .right-panel-top{
+    padding:20px 16px;
+    gap:10px;
   }
-  .panel-empty-desc {
-    font-size: 13px;
+  .qa-open-title{
+    font-size:18px;
   }
-
-  /* RIGHT PANEL Q&A */
-  .right-panel-top {
-    padding: 24px 20px;
-    gap: 10px;
+  .qa-open-desc{
+    font-size:13px;
   }
-  .qa-open-title {
-    font-size: 20px;
+  .qa-buttons{
+    flex-direction:column;
+    align-items:stretch;
+    gap:10px;
+    width:100%;
   }
-  .qa-open-desc {
-    font-size: 13px;
-    line-height: 1.6;
+  .qa-btn{
+    width:100%;
+    text-align:center;
+    padding:12px;
+    font-size:13px;
   }
-  .qa-buttons {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    width: 100%;
+  #pollsContent{
+    flex-direction:column !important;
   }
-  .qa-btn {
-    width: 100%;
-    text-align: center;
-    padding: 12px 16px;
-    font-size: 13px;
+  .run-polls-title{
+    font-size:18px;
   }
-
-  /* POLLS CONTENT */
-  #pollsContent {
-    flex-direction: column !important;
+  .run-polls-desc{
+    font-size:13px;
   }
-  .polls-top-bar {
-    padding: 12px 16px;
+  .poll-live-results{
+    padding:16px;
   }
-  .poll-list-item {
-    padding: 14px 16px;
-    gap: 10px;
+  .live-results-question{
+    font-size:16px;
   }
-  .poll-list-question {
-    font-size: 13px;
+  .modal{
+    padding:22px 16px;
+    margin:10px;
+    max-width:calc(100% - 20px);
+    border-radius:18px;
   }
-  .run-polls-title {
-    font-size: 20px;
+  .modal-header h2{
+    font-size:18px;
   }
-  .run-polls-desc {
-    font-size: 13px;
+  .poll-type-select-modal{
+    padding:22px 16px;
+    margin:10px;
+    max-width:calc(100% - 20px);
   }
-  .poll-live-results {
-    padding: 20px;
+  .poll-types-grid{
+    gap:10px;
   }
-  .live-results-question {
-    font-size: 18px;
+  .poll-type-card{
+    padding:16px 10px;
   }
-
-  /* MODALS */
-  .modal {
-    padding: 24px 18px;
-    margin: 12px;
-    max-width: calc(100% - 24px);
-    border-radius: 20px;
+  .poll-type-icon{
+    font-size:22px;
   }
-  .modal-header h2 {
-    font-size: 20px;
+  .poll-type-card p{
+    font-size:12px;
   }
-  .poll-type-select-modal {
-    padding: 24px 18px;
-    margin: 12px;
-    max-width: calc(100% - 24px);
-  }
-  .poll-type-select-modal h2 {
-    font-size: 20px;
-  }
-  .poll-types-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .poll-type-card {
-    padding: 18px 10px;
-  }
-  .poll-type-icon {
-    font-size: 24px;
-  }
-  .poll-type-card p {
-    font-size: 13px;
-  }
-
-  /* LIVE QUESTIONS */
-  .live-q-text {
-    font-size: 13px;
-  }
-  .live-questions-list {
-    padding: 12px 14px;
-  }
-}
-
-@media(max-width:480px) {
-  .event-info h2 {
-    font-size: 13px;
-    max-width: 110px;
-  }
-  .back-btn {
-    width: 30px;
-    height: 30px;
-    font-size: 13px;
-  }
-  .tab {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-  .qa-open-title {
-    font-size: 18px;
-  }
-  .share-btn {
-    padding: 6px 10px;
-    font-size: 11px;
-  }
-  .modal-buttons {
-    flex-direction: column;
-    gap: 10px;
+  .modal-buttons{
+    flex-direction:column;
+    gap:10px;
   }
   .cancel-btn,
-  .submit-btn {
-    width: 100%;
-    text-align: center;
+  .submit-btn{
+    width:100%;
+    text-align:center;
+  }
+}
+@media(max-width:480px){
+  .event-info h2{
+    font-size:12px;
+    max-width:100px;
+  }
+  .back-btn{
+    width:30px;
+    height:30px;
+    font-size:13px;
+  }
+  .tab{
+    font-size:11px;
+    padding:10px 10px;
+  }
+  .share-btn{
+    padding:6px 10px;
+    font-size:11px;
   }
 }
