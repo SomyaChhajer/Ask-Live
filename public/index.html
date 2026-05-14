@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <nav class="navbar">
     <div class="logo">AskLive</div>
@@ -25,7 +27,7 @@
     </div>
   </nav>
 
-  
+
   <section class="hero">
     <div class="hero-content">
       <h1>Ask. Vote. <span>Live.</span></h1>
@@ -61,6 +63,101 @@
     © 2026 AskLive. All rights reserved.
   </footer>
 
+  <!-- DEMO MODAL -->
+  <div class="demo-modal-overlay hidden" id="demoModal">
+    <div class="demo-modal">
+      <button class="demo-modal-close" id="demoModalClose">&#10005;</button>
+      <div class="demo-phone">
+        <div class="demo-phone-screen">
+          <!-- STEP 1: JOIN SESSION -->
+          <div class="demo-step active" id="demoStep1">
+            <div class="demo-phone-topbar">
+              <span class="demo-phone-title">AskLive</span>
+            </div>
+            <div class="demo-step-content">
+              <div class="demo-step-icon">&#128273;</div>
+              <p class="demo-step-label">Join a Session</p>
+              <div class="demo-input-mock">
+                <span class="demo-input-text" id="demoTyping"></span>
+                <span class="demo-cursor">|</span>
+              </div>
+              <div class="demo-btn-mock">Join Now &#8594;</div>
+            </div>
+          </div>
+          <!-- STEP 2: ASK QUESTION -->
+          <div class="demo-step" id="demoStep2">
+            <div class="demo-phone-topbar">
+              <span class="demo-phone-title">&#128172; Q&A</span>
+            </div>
+            <div class="demo-step-content">
+              <div class="demo-ask-mock">
+                <span class="demo-ask-icon">&#9998;</span>
+                <span class="demo-ask-text" id="demoAskTyping"></span>
+                <span class="demo-cursor">|</span>
+              </div>
+              <div class="demo-btn-mock">Send Question &#128640;</div>
+              <div class="demo-q-card-mock">
+                <div class="demo-q-author">&#128100; Anonymous</div>
+                <div class="demo-q-text">How does AskLive work?</div>
+                <div class="demo-q-likes">5 &#128077;</div>
+              </div>
+            </div>
+          </div>
+          <!-- STEP 3: VOTE POLL -->
+          <div class="demo-step" id="demoStep3">
+            <div class="demo-phone-topbar">
+              <span class="demo-phone-title">&#128202; Polls</span>
+            </div>
+            <div class="demo-step-content">
+              <p class="demo-poll-question">What's your favourite feature?</p>
+              <div class="demo-poll-options">
+                <div class="demo-poll-option" id="demoPollOpt1">&#128172; Live Q&A</div>
+                <div class="demo-poll-option" id="demoPollOpt2">&#128202; Live Polls</div>
+                <div class="demo-poll-option" id="demoPollOpt3">&#128274; Anonymous Mode</div>
+              </div>
+              <div class="demo-btn-mock demo-btn-inactive">Submit Answer</div>
+            </div>
+          </div>
+          <!-- STEP 4: LIKE QUESTION -->
+          <div class="demo-step" id="demoStep4">
+            <div class="demo-phone-topbar">
+              <span class="demo-phone-title">&#128172; Q&A</span>
+            </div>
+            <div class="demo-step-content">
+              <div class="demo-q-card-mock demo-q-highlight">
+                <div class="demo-q-author">&#128100; Sarah</div>
+                <div class="demo-q-text">Can audience vote on questions?</div>
+                <div class="demo-q-likes demo-likes-animate" id="demoLikes">0 &#128077;</div>
+              </div>
+              <div class="demo-q-card-mock">
+                <div class="demo-q-author">&#128100; John</div>
+                <div class="demo-q-text">Is this free to use?</div>
+                <div class="demo-q-likes">3 &#128077;</div>
+              </div>
+              <p class="demo-step-hint">&#128075; Tap to upvote!</p>
+            </div>
+          </div>
+        </div>
+        <!-- PHONE NOTCH -->
+        <div class="demo-phone-notch"></div>
+      </div>
+      <!-- STEP INDICATORS -->
+      <div class="demo-steps-info">
+        <div class="demo-step-dots">
+          <span class="demo-dot active" id="dot1"></span>
+          <span class="demo-dot" id="dot2"></span>
+          <span class="demo-dot" id="dot3"></span>
+          <span class="demo-dot" id="dot4"></span>
+        </div>
+        <div class="demo-step-titles">
+          <p class="demo-step-title" id="demoStepTitle">Step 1: Join a Session</p>
+          <p class="demo-step-desc" id="demoStepDesc">Enter a session code to join any live event instantly</p>
+        </div>
+        <button class="demo-try-btn" id="demoTryBtn">Try it yourself &#8594;</button>
+      </div>
+    </div>
+  </div>
   <script src="script.js"></script>
 </body>
+
 </html>
