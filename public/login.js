@@ -31,7 +31,7 @@ form.addEventListener("submit", async (e) => {
 
   // EMPTY CHECK
 
-  if(email === ""){
+  if (email === "") {
 
     emailError.textContent =
       "Please enter email";
@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
 
   }
 
-  if(password === ""){
+  if (password === "") {
 
     passwordError.textContent =
       "Please enter password";
@@ -54,13 +54,13 @@ form.addEventListener("submit", async (e) => {
 
   const response = await fetch("/login", {
 
-    method:"POST",
+    method: "POST",
 
-    headers:{
-      "Content-Type":"application/json"
+    headers: {
+      "Content-Type": "application/json"
     },
 
-    body:JSON.stringify({
+    body: JSON.stringify({
       email,
       password
     })
@@ -72,7 +72,7 @@ form.addEventListener("submit", async (e) => {
 
   // SUCCESS
 
-  if(data.success){
+  if (data.success) {
 
     localStorage.setItem(
       "token",
@@ -90,25 +90,25 @@ form.addEventListener("submit", async (e) => {
 
   // ERRORS
 
-  else{
+  else {
 
-    if(data.message === "User not found"){
+    if (data.message === "User not found") {
 
       emailError.textContent =
         "Email does not exist";
 
     }
 
-    else if(
+    else if (
       data.message === "Wrong password"
-    ){
+    ) {
 
       passwordError.textContent =
         "Incorrect password";
 
     }
 
-    else{
+    else {
 
       passwordError.textContent =
         data.message;
@@ -123,7 +123,7 @@ const googleLoginBtn = document.getElementById("googleLoginBtn");
 
 googleLoginBtn.addEventListener("click", () => {
   const client = google.accounts.oauth2.initTokenClient({
-    client_id: "YOUR_GOOGLE_CLIENT_ID",
+    client_id: "418590490619-l51bn8htii8la7r332kch0dm52ktfo2o.apps.googleusercontent.com",
     scope: "email profile",
     callback: async (response) => {
       try {
@@ -140,15 +140,15 @@ googleLoginBtn.addEventListener("click", () => {
         });
 
         const data = await res.json();
-        if(data.success) {
+        if (data.success) {
           localStorage.setItem("token", data.token);
           localStorage.setItem("userEmail", data.email);
-          if(data.picture) localStorage.setItem("userPicture", data.picture);
+          if (data.picture) localStorage.setItem("userPicture", data.picture);
           window.location.href = "/";
         } else {
           alert(data.message);
         }
-      } catch(err) {
+      } catch (err) {
         alert("Google login failed. Please try again.");
       }
     }
