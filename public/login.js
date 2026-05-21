@@ -136,7 +136,11 @@ googleLoginBtn.addEventListener("click", () => {
         const res = await fetch("/auth/google", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ token: response.access_token, email: userInfo.email })
+          body: JSON.stringify({
+            email: userInfo.email,
+            name: userInfo.name,
+            picture: userInfo.picture
+          })
         });
 
         const data = await res.json();
