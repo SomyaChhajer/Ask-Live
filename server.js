@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createClient } from "@libsql/client";
+import { OAuth2Client } from "google-auth-library";
 
 dotenv.config();
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 console.log(process.env.TURSO_DATABASE_URL);
 console.log(process.env.TURSO_AUTH_TOKEN);
 
@@ -314,10 +318,34 @@ app.get("/events/code/:code", async (req, res) => {
       sql: `SELECT * FROM events WHERE UPPER(code) = UPPER(?)`,
       args: [code]
     });
+
     if(result.rows.length === 0) {
-      return res.json({ success: false, message: "Event not found" });
+      return res.json({
+        success: false,
+        message: "Oops! We couldn't find a session with that code. Please double-check and try again."
+      });
     }
-    res.json({ success: true, event: result.rows[0] });
+
+    const event = result.rows[0];
+    const now = new Date().toISOString();
+
+    // CHECK IF EVENT EXPIRED
+    if(event.end_date < now) {
+      return res.json({
+        success: false,
+        message: "This session has ended. The event you're trying to join is no longer active."
+      });
+    }
+
+    // CHECK IF EVENT NOT STARTED YET
+    if(event.start_date > now) {
+      return res.json({
+        success: false,
+        message: "This session hasn't started yet. Please check back at the scheduled time."
+      }); 
+    }
+
+    res.json({ success: true, event });
   } catch(err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -429,6 +457,48 @@ app.post("/questions/:id/answer", async (req, res) => {
   }
 });
 
+// GOOGLE LOGIN
+// GOOGLE AUTH
+app.post("/auth/google", async (req, res) => {
+  try {
+    const { email, name, picture } = req.body;
+
+    // CHECK IF USER EXISTS
+    let result = await db.execute({
+      sql: `SELECT * FROM users WHERE email = ?`,
+      args: [email]
+    });
+
+    // CREATE USER IF NOT EXISTS
+    if(result.rows.length === 0) {
+      await db.execute({
+        sql: `INSERT INTO users (email, password) VALUES (?, ?)`,
+        args: [email, "GOOGLE_AUTH"]
+      });
+      result = await db.execute({
+        sql: `SELECT * FROM users WHERE email = ?`,
+        args: [email]
+      });
+    }
+
+    const user = result.rows[0];
+    const token = jwt.sign(
+      { id: user.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      success: true,
+      token,
+      email,
+      name,
+      picture
+    });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 app.listen(3000, () => {
   console.log("Server Running on Port 3000");
 });

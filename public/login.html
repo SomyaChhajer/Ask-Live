@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
 
   <div class="background-glow glow1"></div>
@@ -27,39 +30,41 @@
       <p class="subtitle">
         Login to continue to AskLive
       </p>
-<form>
+      <form>
 
-  <div class="input-box">
+        <div class="input-box">
 
-    <label>Email</label>
+          <label>Email</label>
 
-    <input
-      type="email"
-      placeholder="Enter your email"
-    >
+          <input type="email" placeholder="Enter your email">
 
-    <p class="error email-error"></p>
+          <p class="error email-error"></p>
 
-  </div>
+        </div>
 
-  <div class="input-box">
+        <div class="input-box">
 
-    <label>Password</label>
+          <label>Password</label>
 
-    <input
-      type="password"
-      placeholder="Enter your password"
-    >
+          <input type="password" placeholder="Enter your password">
 
-    <p class="error password-error"></p>
+          <p class="error password-error"></p>
 
-  </div>
+        </div>
 
-  <button type="submit" class="login-btn">
-    Login
-  </button>
+        <button type="submit" class="login-btn">
+          Login
+        </button>
 
-</form>
+        <div class="divider">
+          <span>or</span>
+        </div>
+        <button type="button" class="google-btn" id="googleLoginBtn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
+          Continue with Google
+        </button>
+
+      </form>
 
       <p class="signup-text">
         Don't have an account?
@@ -73,4 +78,5 @@
   <script src="login.js"></script>
 
 </body>
+
 </html>

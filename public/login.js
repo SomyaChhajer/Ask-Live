@@ -118,3 +118,40 @@ form.addEventListener("submit", async (e) => {
   }
 
 });
+// GOOGLE LOGIN
+const googleLoginBtn = document.getElementById("googleLoginBtn");
+
+googleLoginBtn.addEventListener("click", () => {
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: "YOUR_GOOGLE_CLIENT_ID",
+    scope: "email profile",
+    callback: async (response) => {
+      try {
+        // GET USER INFO
+        const userInfo = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${response.access_token}` }
+        }).then(r => r.json());
+
+        // SEND TO OUR SERVER
+        const res = await fetch("/auth/google", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: response.access_token, email: userInfo.email })
+        });
+
+        const data = await res.json();
+        if(data.success) {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("userEmail", data.email);
+          if(data.picture) localStorage.setItem("userPicture", data.picture);
+          window.location.href = "/";
+        } else {
+          alert(data.message);
+        }
+      } catch(err) {
+        alert("Google login failed. Please try again.");
+      }
+    }
+  });
+  client.requestAccessToken();
+});

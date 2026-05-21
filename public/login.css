@@ -153,6 +153,43 @@ body{
   padding-left:4px;
 }
 
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: #64748b;
+  font-size: 13px;
+}
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+.google-btn {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+.google-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.3);
+}
+
 /* RESPONSIVE */
 
 @media(max-width:768px){
