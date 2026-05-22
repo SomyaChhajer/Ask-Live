@@ -129,6 +129,21 @@ body {
   transform: translateY(-3px);
 }
 
+body {
+  overflow-y: auto;
+  min-height: 100vh;
+  height: auto;
+}
+.login-container,
+.signup-container {
+  min-height: 100vh;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+.login-card,
+.signup-card {
+  margin: auto;
+}
 /* SIGNUP */
 
 /* FIX CARD LAYOUT */

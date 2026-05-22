@@ -7,7 +7,7 @@ import { createClient } from "@libsql/client";
 import { OAuth2Client } from "google-auth-library";
 
 dotenv.config();
-
+const moderationStatus = {};
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 console.log(process.env.TURSO_DATABASE_URL);
@@ -309,6 +309,19 @@ app.post("/questions/:id/like", async (req, res) => {
   }
 });
 
+// GET/SET MODERATION STATUS
+app.get("/events/moderation/:code", (req, res) => {
+  const { code } = req.params;
+  res.json({ moderation: moderationStatus[code] || false });
+});
+
+app.post("/events/moderation/:code", (req, res) => {
+  const { code } = req.params;
+  const { enabled } = req.body;
+  moderationStatus[code] = enabled;
+  res.json({ success: true });
+});
+
 // GET EVENT BY CODE
 app.get("/events/code/:code", async (req, res) => {
   try {
@@ -545,20 +558,7 @@ app.post("/questions/:id/reject", async (req, res) => {
   }
 });
 
-// GET/SET MODERATION STATUS
 
-
-app.get("/events/moderation/:code", (req, res) => {
-  const { code } = req.params;
-  res.json({ moderation: moderationStatus[code] || false });
-});
-
-app.post("/events/moderation/:code", (req, res) => {
-  const { code } = req.params;
-  const { enabled } = req.body;
-  moderationStatus[code] = enabled;
-  res.json({ success: true });
-});
 
 app.listen(3000, () => {
   console.log("Server Running on Port 3000");

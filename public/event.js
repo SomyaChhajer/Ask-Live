@@ -37,7 +37,7 @@ const leftPanelBody = document.getElementById("leftPanelBody");
 
 let moderationOn = false;
 
-moderationToggle.addEventListener("change", () => {
+moderationToggle.addEventListener("change", async () => {
   moderationOn = moderationToggle.checked;
   if (moderationOn) {
     leftPanelBody.innerHTML = `
