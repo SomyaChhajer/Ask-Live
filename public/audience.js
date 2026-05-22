@@ -66,20 +66,24 @@ cancelAsk.addEventListener("click", () => {
 submitAsk.addEventListener("click", async () => {
   const question = questionInput.value.trim();
   const name = document.getElementById("nameInput").value.trim();
-
   if (!question) {
     questionInput.focus();
     return;
   }
-
   try {
+    // CHECK IF MODERATION IS ON
+    const modRes = await fetch(`/events/moderation/${code}`);
+    const modData = await modRes.json();
+    const isPending = modData.moderation ? 1 : 0;
+
     const res = await fetch("/questions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         event_code: code,
         author: name || "Anonymous",
-        question
+        question,
+        pending: isPending
       })
     });
     const data = await res.json();
@@ -87,7 +91,20 @@ submitAsk.addEventListener("click", async () => {
       questionInput.value = "";
       document.getElementById("nameInput").value = "";
       askExpanded.classList.add("hidden");
-      loadQuestions(currentFilter);
+      if(isPending) {
+        // SHOW PENDING MESSAGE
+        const msg = document.createElement("div");
+        msg.className = "question-card";
+        msg.style.borderColor = "#f59e0b";
+        msg.innerHTML = `
+          <p style="color:#f59e0b;font-size:13px;">&#9203; Your question is waiting for approval</p>
+          <p class="question-text">${question}</p>
+        `;
+        questionsList.prepend(msg);
+        setTimeout(() => msg.remove(), 5000);
+      } else {
+        loadQuestions(currentFilter);
+      }
     }
   } catch (err) {
     console.error(err);

@@ -147,6 +147,15 @@ body{
   text-decoration:underline;
 }
 
+/* FIX CARD LAYOUT */
+.signup-card{
+  display:flex;
+  flex-direction:column;
+}
+.login-text{
+  margin-top:auto;
+  padding-top:20px;
+}
 /* RESPONSIVE */
 @media(max-width:768px){
   .signup-card{

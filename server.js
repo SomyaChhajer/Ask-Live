@@ -56,8 +56,8 @@ async function initDB() {
   `);
 
 }
-// CREATE QUESTIONS TABLE
 
+// ADD PENDING COLUMN TO QUESTIONS
 async function initQuestionsDB() {
   await db.execute(`
     CREATE TABLE IF NOT EXISTS questions (
@@ -67,17 +67,15 @@ async function initQuestionsDB() {
       question TEXT,
       likes INTEGER DEFAULT 0,
       priority INTEGER DEFAULT 0,
-      answered INTEGER DEFAULT 0
+      answered INTEGER DEFAULT 0,
+      pending INTEGER DEFAULT 0
     )
   `);
-  // ADD COLUMNS IF NOT EXISTS
-  try {
-    await db.execute(`ALTER TABLE questions ADD COLUMN priority INTEGER DEFAULT 0`);
-  } catch(e) {}
-  try {
-    await db.execute(`ALTER TABLE questions ADD COLUMN answered INTEGER DEFAULT 0`);
-  } catch(e) {}
+  try { await db.execute(`ALTER TABLE questions ADD COLUMN priority INTEGER DEFAULT 0`); } catch(e) {}
+  try { await db.execute(`ALTER TABLE questions ADD COLUMN answered INTEGER DEFAULT 0`); } catch(e) {}
+  try { await db.execute(`ALTER TABLE questions ADD COLUMN pending INTEGER DEFAULT 0`); } catch(e) {}
 }
+
 initQuestionsDB();
 
 // CREATE POLLS TABLE
@@ -266,6 +264,7 @@ app.get("/events", async (req, res) => {
   }
 });
 // GET QUESTIONS BY EVENT CODE
+
 app.get("/questions/:code", async (req, res) => {
   try {
     const { code } = req.params;
@@ -273,7 +272,8 @@ app.get("/questions/:code", async (req, res) => {
       sql: `SELECT * FROM questions 
             WHERE event_code = ? 
             AND COALESCE(answered, 0) = 0
-            ORDER BY priority DESC, likes DESC`,
+            AND COALESCE(pending, 0) = 0
+            ORDER BY COALESCE(priority,0) DESC, likes DESC`,
       args: [code]
     });
     res.json({ success: true, questions: result.rows });
@@ -285,17 +285,16 @@ app.get("/questions/:code", async (req, res) => {
 // ADD QUESTION
 app.post("/questions", async (req, res) => {
   try {
-    const { event_code, author, question } = req.body;
+    const { event_code, author, question, pending } = req.body;
     await db.execute({
-      sql: `INSERT INTO questions (event_code, author, question) VALUES (?, ?, ?)`,
-      args: [event_code, author, question]
+      sql: `INSERT INTO questions (event_code, author, question, pending) VALUES (?, ?, ?, ?)`,
+      args: [event_code, author, question, pending || 0]
     });
     res.json({ success: true });
   } catch(err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
-
 // LIKE QUESTION
 app.post("/questions/:id/like", async (req, res) => {
   try {
@@ -499,6 +498,68 @@ app.post("/auth/google", async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 });
+
+
+
+// GET PENDING QUESTIONS (for organizer review)
+app.get("/questions/:code/pending", async (req, res) => {
+  try {
+    const { code } = req.params;
+    const result = await db.execute({
+      sql: `SELECT * FROM questions 
+            WHERE event_code = ? AND pending = 1
+            ORDER BY id DESC`,
+      args: [code]
+    });
+    res.json({ success: true, questions: result.rows });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// APPROVE QUESTION
+app.post("/questions/:id/approve", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.execute({
+      sql: `UPDATE questions SET pending = 0 WHERE id = ?`,
+      args: [id]
+    });
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// REJECT QUESTION
+app.post("/questions/:id/reject", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.execute({
+      sql: `UPDATE questions SET answered = 1, pending = 0 WHERE id = ?`,
+      args: [id]
+    });
+    res.json({ success: true });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET/SET MODERATION STATUS
+
+
+app.get("/events/moderation/:code", (req, res) => {
+  const { code } = req.params;
+  res.json({ moderation: moderationStatus[code] || false });
+});
+
+app.post("/events/moderation/:code", (req, res) => {
+  const { code } = req.params;
+  const { enabled } = req.body;
+  moderationStatus[code] = enabled;
+  res.json({ success: true });
+});
+
 app.listen(3000, () => {
   console.log("Server Running on Port 3000");
 });

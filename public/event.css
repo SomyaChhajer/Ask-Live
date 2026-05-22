@@ -307,6 +307,70 @@ input:checked + .slider::before {
   transform: translateY(-2px);
 }
 
+/* PENDING QUESTIONS */
+.pending-questions-list {
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: calc(100% - 120px);
+}
+.pending-q-card {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pending-q-author {
+  font-size: 12px;
+  color: #94a3b8;
+}
+.pending-q-text {
+  font-size: 14px;
+  color: #e2e8f0;
+  line-height: 1.5;
+}
+.pending-q-actions {
+  display: flex;
+  gap: 8px;
+}
+.approve-btn {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 8px;
+  background: #22c55e;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+.approve-btn:hover {
+  opacity: 0.9;
+}
+.reject-btn {
+  flex: 1;
+  padding: 7px;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: 'Poppins', sans-serif;
+}
+.reject-btn:hover {
+  opacity: 0.9;
+}
+
 /* RESPONSIVE */
 @media(max-width: 768px) {
   .content {

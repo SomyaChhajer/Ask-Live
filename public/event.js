@@ -35,24 +35,89 @@ const moderationToggle = document.getElementById("moderationToggle");
 const moderationBtn = document.getElementById("moderationBtn");
 const leftPanelBody = document.getElementById("leftPanelBody");
 
+let moderationOn = false;
+
 moderationToggle.addEventListener("change", () => {
-  if (moderationToggle.checked) {
+  moderationOn = moderationToggle.checked;
+  if (moderationOn) {
     leftPanelBody.innerHTML = `
       <div class="panel-empty">
         <p class="panel-empty-title">Moderation turned on</p>
-        <p class="panel-empty-desc">Questions will be reviewed before appearing live to the audience.</p>
+        <p class="panel-empty-desc">Questions need your approval before going live.</p>
       </div>
+      <div class="pending-questions-list" id="pendingList"></div>
     `;
+    loadPendingQuestions();
   } else {
     leftPanelBody.innerHTML = `
       <div class="panel-empty">
         <p class="panel-empty-title">Moderation turned off</p>
         <p class="panel-empty-desc">Audience questions automatically appear live, visible to everyone.</p>
-        <button class="moderation-btn">&#128274; Turn on moderation</button>
+        <button class="moderation-btn" id="moderationBtn">&#128274; Turn on moderation</button>
       </div>
     `;
   }
+  // SYNC WITH SERVER
+  await fetch(`/events/moderation/${code}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ enabled: moderationToggle.checked })
+  });
 });
+
+// LOAD PENDING QUESTIONS
+async function loadPendingQuestions() {
+  if (!moderationOn) return;
+  try {
+    const res = await fetch(`/questions/${code}/pending`);
+    const data = await res.json();
+    const list = document.getElementById("pendingList");
+    if (!list) return;
+
+    if (!data.questions || data.questions.length === 0) {
+      list.innerHTML = `<p class="empty-state-small">No questions waiting for review</p>`;
+      return;
+    }
+
+    list.innerHTML = "";
+    data.questions.forEach(q => {
+      const item = document.createElement("div");
+      item.className = "pending-q-card";
+      item.innerHTML = `
+        <div class="pending-q-author">&#128100; ${q.author || "Anonymous"}</div>
+        <p class="pending-q-text">${q.question}</p>
+        <div class="pending-q-actions">
+          <button class="approve-btn" data-id="${q.id}">&#10003; Approve</button>
+          <button class="reject-btn" data-id="${q.id}">&#10005; Reject</button>
+        </div>
+      `;
+
+      // APPROVE
+      item.querySelector(".approve-btn").addEventListener("click", async (e) => {
+        const id = e.currentTarget.dataset.id;
+        await fetch(`/questions/${id}/approve`, { method: "POST" });
+        loadPendingQuestions();
+        loadLiveQuestions();
+      });
+
+      // REJECT
+      item.querySelector(".reject-btn").addEventListener("click", async (e) => {
+        const id = e.currentTarget.dataset.id;
+        await fetch(`/questions/${id}/reject`, { method: "POST" });
+        loadPendingQuestions();
+      });
+
+      list.appendChild(item);
+    });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// AUTO REFRESH PENDING EVERY 5 SECONDS
+setInterval(() => {
+  if (moderationOn) loadPendingQuestions();
+}, 5000);
 // SHARE MODAL
 const shareModal = document.getElementById("shareModal");
 const closeShareModal = document.getElementById("closeShareModal");
@@ -454,7 +519,7 @@ function showLiveResults(poll) {
 function renderResults(type, options, votes, total, container) {
   container.innerHTML = "";
 
-  if(type === "multiple") {
+  if (type === "multiple") {
     options.forEach(opt => {
       const count = votes[opt] || 0;
       const pct = total > 0 ? Math.round((count / total) * 100) : 0;
@@ -472,11 +537,11 @@ function renderResults(type, options, votes, total, container) {
       container.appendChild(row);
     });
 
-  } else if(type === "wordcloud") {
+  } else if (type === "wordcloud") {
     const cloud = document.createElement("div");
     cloud.className = "word-cloud";
     const maxCount = Math.max(...Object.values(votes), 1);
-    if(Object.keys(votes).length === 0) {
+    if (Object.keys(votes).length === 0) {
       cloud.innerHTML = `<p style="color:#64748b">No responses yet...</p>`;
     } else {
       // SHUFFLE for scattered look
@@ -487,7 +552,7 @@ function renderResults(type, options, votes, total, container) {
         item.className = "word-cloud-item";
         item.style.fontSize = `${size}px`;
         item.style.opacity = String(0.5 + (count / maxCount) * 0.5);
-        if(count === maxCount) {
+        if (count === maxCount) {
           item.style.background = "rgba(56,189,248,0.3)";
           item.style.color = "#38bdf8";
         }
@@ -497,13 +562,13 @@ function renderResults(type, options, votes, total, container) {
     }
     container.appendChild(cloud);
 
-  } else if(type === "rating") {
+  } else if (type === "rating") {
     const max = Number(options[0]) || 5;
     const chart = document.createElement("div");
     chart.className = "rating-chart";
-    const maxCount = Math.max(...Array.from({length: max}, (_, i) => votes[String(i+1)] || 0), 1);
+    const maxCount = Math.max(...Array.from({ length: max }, (_, i) => votes[String(i + 1)] || 0), 1);
 
-    for(let i = 1; i <= max; i++) {
+    for (let i = 1; i <= max; i++) {
       const count = votes[String(i)] || 0;
       const pct = total > 0 ? Math.round((count / total) * 100) : 0;
       const heightPct = Math.round((count / maxCount) * 100);
@@ -520,11 +585,11 @@ function renderResults(type, options, votes, total, container) {
     }
     container.appendChild(chart);
 
-  } else if(type === "opentext") {
+  } else if (type === "opentext") {
     const list = document.createElement("div");
     list.className = "open-text-list";
     const entries = Object.keys(votes);
-    if(entries.length === 0) {
+    if (entries.length === 0) {
       list.innerHTML = `<p style="color:#64748b;font-size:14px;">No responses yet...</p>`;
     } else {
       entries.forEach(ans => {
