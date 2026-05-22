@@ -91,20 +91,18 @@ submitAsk.addEventListener("click", async () => {
       questionInput.value = "";
       document.getElementById("nameInput").value = "";
       askExpanded.classList.add("hidden");
-      if(isPending) {
-        // SHOW PENDING MESSAGE
-        const msg = document.createElement("div");
-        msg.className = "question-card";
-        msg.style.borderColor = "#f59e0b";
-        msg.innerHTML = `
-          <p style="color:#f59e0b;font-size:13px;">&#9203; Your question is waiting for approval</p>
-          <p class="question-text">${question}</p>
-        `;
-        questionsList.prepend(msg);
-        setTimeout(() => msg.remove(), 5000);
-      } else {
-        loadQuestions(currentFilter);
-      }
+      loadQuestions(currentFilter);
+    } else if (data.blocked) {
+      // SHOW BLOCKED MESSAGE
+      questionInput.style.borderColor = "#ef4444";
+      const errMsg = document.createElement("p");
+      errMsg.style.cssText = "color:#ef4444;font-size:12px;margin-top:6px;";
+      errMsg.textContent = "⚠️ " + data.message;
+      askExpanded.appendChild(errMsg);
+      setTimeout(() => {
+        errMsg.remove();
+        questionInput.style.borderColor = "";
+      }, 4000);
     }
   } catch (err) {
     console.error(err);
@@ -395,7 +393,7 @@ async function loadPolls() {
 }
 // AUTO REFRESH POLLS EVERY 5 SECONDS
 setInterval(() => {
-  if(pollsSection.style.display !== "none") {
+  if (pollsSection.style.display !== "none") {
     loadPolls();
   }
 }, 5000);

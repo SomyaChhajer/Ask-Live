@@ -308,13 +308,14 @@ input:checked + .slider::before {
 }
 
 /* PENDING QUESTIONS */
+
 .pending-questions-list {
-  padding: 10px 16px;
+  padding: 12px 16px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  max-height: calc(100% - 120px);
+  flex: 1;
 }
 .pending-q-card {
   background: rgba(245,158,11,0.08);
@@ -337,10 +338,11 @@ input:checked + .slider::before {
 .pending-q-actions {
   display: flex;
   gap: 8px;
+  width: 100%;
 }
 .approve-btn {
   flex: 1;
-  padding: 7px;
+  padding: 8px;
   border: none;
   border-radius: 8px;
   background: #22c55e;
@@ -350,13 +352,11 @@ input:checked + .slider::before {
   cursor: pointer;
   transition: 0.3s;
   font-family: 'Poppins', sans-serif;
-}
-.approve-btn:hover {
-  opacity: 0.9;
+  white-space: nowrap;
 }
 .reject-btn {
   flex: 1;
-  padding: 7px;
+  padding: 8px;
   border: none;
   border-radius: 8px;
   background: #ef4444;
@@ -366,7 +366,13 @@ input:checked + .slider::before {
   cursor: pointer;
   transition: 0.3s;
   font-family: 'Poppins', sans-serif;
+  white-space: nowrap;
 }
+
+.approve-btn:hover {
+  opacity: 0.9;
+}
+
 .reject-btn:hover {
   opacity: 0.9;
 }
