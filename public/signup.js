@@ -1,4 +1,15 @@
 const form = document.querySelector("form");
+const emailError = document.querySelector(
+  ".signup-email-error"
+);
+
+const passwordError = document.querySelector(
+  ".signup-password-error"
+);
+
+const confirmError = document.querySelector(
+  ".signup-confirm-error"
+);
 
 // HIDE LOGIN LINK IF COMING FROM JOIN SESSION
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,6 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  emailError.textContent = "";
+passwordError.textContent = "";
+confirmError.textContent = "";
   const email = document.querySelector(
     'input[type="email"]'
   ).value;
@@ -21,12 +35,33 @@ form.addEventListener("submit", async (e) => {
     'input[type="password"]'
   )[1].value;
   // VALIDATION
-  if (email === "" || password === "" || confirmPassword === "") {
-    alert("Please fill all fields");
-    return;
-  }
+  
+  if (email === "") {
+
+  emailError.textContent =
+    "Please enter email";
+
+  return;
+}
+
+if (password === "") {
+
+  passwordError.textContent =
+    "Please enter password";
+
+  return;
+}
+
+if (confirmPassword === "") {
+
+  confirmError.textContent =
+    "Please confirm password";
+
+  return;
+}
   if (password !== confirmPassword) {
-    alert("Passwords do not match");
+    confirmError.textContent =
+  "Passwords do not match";
     return;
   }
   // API CALL
