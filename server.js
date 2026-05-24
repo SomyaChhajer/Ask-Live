@@ -46,17 +46,18 @@ setInterval(cleanExpiredEvents, 60 * 60 * 1000);
 // CREATE TABLE
 
 async function initDB() {
-
   await db.execute(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE,
-      password TEXT
+      password TEXT,
+      verified INTEGER DEFAULT 0,
+      verify_token TEXT
     )
   `);
-
+  try { await db.execute(`ALTER TABLE users ADD COLUMN verified INTEGER DEFAULT 0`); } catch(e) {}
+  try { await db.execute(`ALTER TABLE users ADD COLUMN verify_token TEXT`); } catch(e) {}
 }
-
 // ADD PENDING COLUMN TO QUESTIONS
 async function initQuestionsDB() {
   await db.execute(`
@@ -558,7 +559,122 @@ app.post("/questions/:id/reject", async (req, res) => {
   }
 });
 
+import nodemailer from "nodemailer";
 
+// EMAIL TRANSPORTER
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+
+
+// UPDATE SIGNUP ROUTE
+app.post("/signup", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const token = Math.random().toString(36).substring(2, 15) + 
+                  Math.random().toString(36).substring(2, 15);
+
+    await db.execute({
+      sql: `INSERT INTO users(email, password, verify_token, verified) VALUES (?, ?, ?, 0)`,
+      args: [email, hashedPassword, token]
+    });
+
+    // SEND VERIFICATION EMAIL
+    const verifyUrl = `${process.env.APP_URL || "http://localhost:3000"}/verify?token=${token}`;
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Verify your AskLive account",
+      html: `
+        <div style="font-family:Poppins,sans-serif;max-width:500px;margin:auto;padding:30px;background:#0f172a;color:white;border-radius:16px;">
+          <h1 style="color:#38bdf8;">AskLive</h1>
+          <h2>Verify your email</h2>
+          <p style="color:#94a3b8;">Click the button below to verify your account.</p>
+          <a href="${verifyUrl}" style="display:inline-block;padding:14px 28px;background:#38bdf8;color:#0f172a;border-radius:12px;text-decoration:none;font-weight:600;margin-top:16px;">
+            Verify Email
+          </a>
+          <p style="color:#64748b;margin-top:24px;font-size:13px;">If you didn't create an account, ignore this email.</p>
+        </div>
+      `
+    });
+
+    res.json({ success: true, message: "Account created! Please check your email to verify." });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// VERIFY EMAIL ROUTE
+app.get("/verify", async (req, res) => {
+  try {
+    const { token } = req.query;
+    const result = await db.execute({
+      sql: `SELECT * FROM users WHERE verify_token = ?`,
+      args: [token]
+    });
+    if(result.rows.length === 0) {
+      return res.send(`
+        <html><body style="background:#0f172a;color:white;font-family:Poppins,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;">
+          <div style="text-align:center;">
+            <h1 style="color:#ef4444;">Invalid or expired link</h1>
+            <a href="/login.html" style="color:#38bdf8;">Go to Login</a>
+          </div>
+        </body></html>
+      `);
+    }
+    await db.execute({
+      sql: `UPDATE users SET verified = 1, verify_token = NULL WHERE verify_token = ?`,
+      args: [token]
+    });
+    res.send(`
+      <html><body style="background:#0f172a;color:white;font-family:Poppins,sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0;">
+        <div style="text-align:center;">
+          <h1 style="color:#38bdf8;">✅ Email Verified!</h1>
+          <p style="color:#94a3b8;">Your account is now active.</p>
+          <a href="/login.html" style="display:inline-block;padding:12px 24px;background:#38bdf8;color:#0f172a;border-radius:12px;text-decoration:none;font-weight:600;margin-top:16px;">Go to Login</a>
+        </div>
+      </body></html>
+    `);
+  } catch(err) {
+    res.status(500).send("Something went wrong");
+  }
+});
+
+// UPDATE LOGIN TO CHECK VERIFICATION
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const result = await db.execute({
+      sql: `SELECT * FROM users WHERE email = ?`,
+      args: [email]
+    });
+    const user = result.rows[0];
+    if(!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+    // CHECK VERIFICATION
+    if(!user.verified) {
+      return res.status(400).json({ 
+        success: false, 
+        message: "Please verify your email before logging in. Check your inbox." 
+      });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch) {
+      return res.status(400).json({ success: false, message: "Wrong password" });
+    }
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    res.json({ success: true, token });
+  } catch(err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server Running on Port 3000");
