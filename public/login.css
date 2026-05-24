@@ -128,13 +128,15 @@ body {
 .login-btn:hover {
   transform: translateY(-3px);
 }
-
 body {
   overflow-y: auto;
-  min-height: 100vh;
   height: auto;
+  align-items: flex-start;
 }
-.login-container,
+.login-container {
+  padding: 30px 20px;
+  min-height: 100vh;
+}
 .signup-container {
   min-height: 100vh;
   align-items: flex-start;

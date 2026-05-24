@@ -18,11 +18,10 @@ form.addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if(data.success) {
-      // REDIRECT TO AUDIENCE PAGE
-      window.location.href = `audience.html?code=${code}`;
-    } else {
-      codeError.textContent = "Session not found. Please check the code.";
-    }
+  window.location.href = `audience.html?code=${code}`;
+} else {
+  codeError.textContent = data.message;
+}
   } catch(err) {
     codeError.textContent = "Something went wrong. Try again.";
   }

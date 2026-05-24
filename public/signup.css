@@ -146,19 +146,21 @@ body{
 .login-text a:hover{
   text-decoration:underline;
 }
-
 body {
   overflow-y: auto;
-  min-height: 100vh;
   height: auto;
+  align-items: flex-start;
 }
-.login-container,
+.signup-container {
+  padding: 30px 20px;
+  min-height: 100vh;
+}
 .signup-container {
   min-height: 100vh;
   align-items: flex-start;
   padding: 40px 20px;
 }
-.login-card,
+
 .signup-card {
   margin: auto;
 }
@@ -202,4 +204,44 @@ body {
     padding:13px;
     font-size:15px;
   }
+}
+
+.google-btn {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.google-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
 }

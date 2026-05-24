@@ -117,19 +117,7 @@ async function initEventsDB() {
 initEventsDB();
 initDB();
 
-// OFFENSIVE WORDS LIST
-const offensiveWords = [
-  "fuck", "shit", "bitch", "asshole", "bastard", "damn", "crap",
-  "dick", "pussy", "cock", "whore", "slut", "nigger", "nigga",
-  "faggot", "retard", "idiot", "stupid", "moron", "hell",
-  "sex", "porn", "nude", "naked", "rape", "kill", "murder",
-  "terrorist", "bomb", "hate", "racist", "abuse"
-];
 
-function containsOffensiveWord(text) {
-  const lower = text.toLowerCase();
-  return offensiveWords.some(word => lower.includes(word));
-}
 // SIGNUP
 
 app.post("/signup", async (req, res) => {
@@ -267,7 +255,7 @@ app.get("/events", async (req, res) => {
   try {
     const nowUTC = new Date().toISOString();
     const result = await db.execute({
-      sql: `SELECT * FROM events WHERE end_date > ?`,
+      sql: `SELECT * FROM events WHERE end_date > ? AND code != 'DEMO123'`,
       args: [nowUTC]
     });
     res.json({ success: true, events: result.rows });
@@ -298,16 +286,6 @@ app.get("/questions/:code", async (req, res) => {
 app.post("/questions", async (req, res) => {
   try {
     const { event_code, author, question, pending } = req.body;
-
-    // AUTO-REJECT OFFENSIVE QUESTIONS
-    if(containsOffensiveWord(question)) {
-      return res.json({ 
-        success: false, 
-        blocked: true,
-        message: "Your question contains inappropriate content and was not submitted."
-      });
-    }
-
     await db.execute({
       sql: `INSERT INTO questions (event_code, author, question, pending) VALUES (?, ?, ?, ?)`,
       args: [event_code, author, question, pending || 0]

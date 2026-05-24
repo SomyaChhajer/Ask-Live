@@ -618,3 +618,150 @@ setInterval(async () => {
     if (data.success) showLiveResults(data.poll);
   } catch (err) { }
 }, 4000);
+
+
+// ANALYTICS TAB
+const tabAnalytics = document.getElementById("tabAnalytics");
+const analyticsContent = document.getElementById("analyticsContent");
+
+tabAnalytics.addEventListener("click", () => {
+  tabs.forEach(t => t.classList.remove("active"));
+  tabAnalytics.classList.add("active");
+  qaContent.style.display = "none";
+  pollsContent.style.display = "none";
+  document.getElementById("mainContent").style.display = "none";
+  analyticsContent.style.display = "flex";
+  loadAnalytics();
+});
+
+tabQA.addEventListener("click", () => {
+  tabQA.classList.add("active");
+  tabPolls.classList.remove("active");
+  analyticsContent.style.display = "none";
+  document.getElementById("mainContent").style.display = "flex";
+  qaContent.style.display = "flex";
+  pollsContent.style.display = "none";
+});
+
+tabPolls.addEventListener("click", () => {
+  tabPolls.classList.add("active");
+  tabQA.classList.remove("active");
+  analyticsContent.style.display = "none";
+  document.getElementById("mainContent").style.display = "flex";
+  pollsContent.style.display = "flex";
+  qaContent.style.display = "none";
+  loadPolls();
+});
+
+async function loadAnalytics() {
+  try {
+    const analyticsContent = document.getElementById("analyticsContent");
+
+    // FETCH QUESTIONS AND POLLS
+    const [qRes, pRes] = await Promise.all([
+      fetch(`/questions/${code}`),
+      fetch(`/polls/${code}`)
+    ]);
+    const qData = await qRes.json();
+    const pData = await pRes.json();
+
+    const questions = qData.questions || [];
+    const polls = pData.polls || [];
+
+    // CALCULATE STATS
+    const totalQuestions = questions.length;
+    const totalLikes = questions.reduce((a, b) => a + (b.likes || 0), 0);
+    const topQuestion = questions.sort((a, b) => b.likes - a.likes)[0];
+    const uniqueAuthors = new Set(questions.map(q => q.author || "Anonymous")).size;
+    const totalPollVotes = polls.reduce((a, p) => {
+      const votes = JSON.parse(p.votes || "{}");
+      return a + Object.values(votes).reduce((x, y) => x + y, 0);
+    }, 0);
+
+    analyticsContent.innerHTML = `
+      <div class="analytics-grid">
+        <div class="analytics-card">
+          <p class="analytics-number">${totalQuestions}</p>
+          <p class="analytics-label">Total Questions</p>
+        </div>
+        <div class="analytics-card">
+          <p class="analytics-number">${uniqueAuthors}</p>
+          <p class="analytics-label">Participants</p>
+        </div>
+        <div class="analytics-card">
+          <p class="analytics-number">${totalLikes}</p>
+          <p class="analytics-label">Total Likes</p>
+        </div>
+        <div class="analytics-card">
+          <p class="analytics-number">${totalPollVotes}</p>
+          <p class="analytics-label">Poll Votes</p>
+        </div>
+      </div>
+
+      ${topQuestion ? `
+      <div class="analytics-section">
+        <h3 class="analytics-section-title">&#128293; Top Question</h3>
+        <div class="analytics-top-question">
+          <p class="analytics-q-text">${topQuestion.question}</p>
+          <span class="analytics-q-likes">${topQuestion.likes} &#128077;</span>
+        </div>
+      </div>` : ""}
+
+      ${questions.length > 0 ? `
+      <div class="analytics-section">
+        <h3 class="analytics-section-title">&#128172; All Questions by Popularity</h3>
+        <div class="analytics-questions-list">
+          ${questions.map((q, i) => `
+            <div class="analytics-q-row">
+              <span class="analytics-q-rank">#${i + 1}</span>
+              <span class="analytics-q-text-small">${q.question}</span>
+              <span class="analytics-q-likes-small">${q.likes} &#128077;</span>
+            </div>
+          `).join("")}
+        </div>
+      </div>` : ""}
+
+      ${polls.length > 0 ? `
+      <div class="analytics-section">
+        <h3 class="analytics-section-title">&#128202; Poll Results Summary</h3>
+        ${polls.map(poll => {
+          const votes = JSON.parse(poll.votes || "{}");
+          const total = Object.values(votes).reduce((a, b) => a + b, 0);
+          const options = JSON.parse(poll.options || "[]");
+          return `
+            <div class="analytics-poll-card">
+              <p class="analytics-poll-q">${poll.question}</p>
+              <p class="analytics-poll-votes">${total} total votes</p>
+              ${poll.type === "multiple" ? options.map(opt => {
+                const count = votes[opt] || 0;
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                return `
+                  <div class="analytics-poll-bar-row">
+                    <span class="analytics-poll-opt">${opt}</span>
+                    <div class="analytics-poll-track">
+                      <div class="analytics-poll-fill" style="width:${pct}%"></div>
+                    </div>
+                    <span class="analytics-poll-pct">${pct}%</span>
+                  </div>
+                `;
+              }).join("") : Object.entries(votes).map(([ans, count]) => {
+                const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+                return `
+                  <div class="analytics-poll-bar-row">
+                    <span class="analytics-poll-opt">${ans}</span>
+                    <div class="analytics-poll-track">
+                      <div class="analytics-poll-fill" style="width:${pct}%"></div>
+                    </div>
+                    <span class="analytics-poll-pct">${pct}% (${count})</span>
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          `;
+        }).join("")}
+      </div>` : ""}
+    `;
+  } catch(err) {
+    console.error(err);
+  }
+}
