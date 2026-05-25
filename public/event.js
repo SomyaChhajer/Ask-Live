@@ -48,12 +48,11 @@ moderationToggle.addEventListener("change", async () => {
       <div class="pending-questions-list" id="pendingList"></div>
     `;
     loadPendingQuestions();
-  } else {
+  }  else {
     leftPanelBody.innerHTML = `
       <div class="panel-empty">
         <p class="panel-empty-title">Moderation turned off</p>
         <p class="panel-empty-desc">Audience questions automatically appear live, visible to everyone.</p>
-        <button class="moderation-btn" id="moderationBtn">&#128274; Turn on moderation</button>
       </div>
     `;
   }
