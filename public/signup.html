@@ -1,78 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Sign Up | AskLive</title>
-
   <link rel="stylesheet" href="signup.css">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <body>
-
   <div class="background-glow glow1"></div>
   <div class="background-glow glow2"></div>
-
   <div class="signup-container">
-
     <div class="signup-card">
 
-      <h1>Create Account</h1>
-
-      <p class="subtitle">
-        Join AskLive and start interactive sessions
-      </p>
-
-      <form>
-
+      <!-- STEP 1: SIGNUP FORM -->
+      <div id="signupStep">
+        <h1>Create Account</h1>
+        <p class="subtitle">Join AskLive and start interactive sessions</p>
         <div class="input-box">
           <label>Email</label>
-          <input type="email" placeholder="Enter your email">
-          <p class="error signup-email-error"></p>
+          <input type="email" id="signupEmail" placeholder="Enter your email">
         </div>
-
         <div class="input-box">
           <label>Password</label>
-          <input type="password" placeholder="Create password">
-          <p class="error signup-password-error"></p>
+          <input type="password" id="signupPassword" placeholder="Create password">
         </div>
-
         <div class="input-box">
           <label>Confirm Password</label>
-          <input type="password" placeholder="Confirm password">
-          <p class="error signup-confirm-error"></p>
+          <input type="password" id="signupConfirm" placeholder="Confirm password">
         </div>
-
-        <button type="submit" class="signup-btn">
-          Create Account
+        <p class="form-error" id="signupError"></p>
+        <button class="signup-btn" id="signupBtn">Create Account</button>
+        <div class="divider"><span>or</span></div>
+        <button type="button" class="google-btn" id="googleSignupBtn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
+          Continue with Google
         </button>
+        <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
+      </div>
 
-      </form>
-      <div class="divider"><span>or</span></div>
-      <button type="button" class="google-btn" id="googleSignupBtn">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20" height="20">
-        Continue with Google
-      </button>
-
-      <p class="login-text">
-        Already have an account?
-        <a href="login.html">Login</a>
-      </p>
+      <!-- STEP 2: OTP VERIFICATION -->
+      <div id="otpStep" style="display:none;">
+        <div class="otp-icon">📧</div>
+        <h1>Verify Email</h1>
+        <p class="subtitle" id="otpSubtitle">We sent a 6-digit code to your email</p>
+        <div class="otp-boxes" id="otpBoxes">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+          <input class="otp-input" maxlength="1" type="text" inputmode="numeric">
+        </div>
+        <p class="form-error" id="otpError"></p>
+        <p class="form-success" id="otpSuccess"></p>
+        <button class="signup-btn" id="verifyBtn">Verify & Create Account</button>
+        <p class="resend-text">Didn't get the code? 
+          <span class="resend-link" id="resendBtn">Resend</span>
+        </p>
+        <p class="back-link" id="backToSignup">← Back</p>
+      </div>
 
     </div>
-
   </div>
-
   <script src="signup.js"></script>
-
 </body>
-
 </html>
