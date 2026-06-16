@@ -7,6 +7,15 @@ function generateCode() {
   }
   return code;
 }
+// ADD THIS HELPER AT TOP OF create_session.js
+function authHeaders() {
+  const token = localStorage.getItem("token");
+  return {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  };
+}
+ 
 
 // ELEMENTS
 const openModal = document.getElementById("openModal");
@@ -54,11 +63,12 @@ submitEvent.addEventListener("click", async () => {
   const endUTC = new Date(end).toISOString();
 
   // API CALL
-  const response = await fetch("/create-event", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, code, start_date: startUTC, end_date: endUTC, user_id })
-  });
+// API CALL
+const response = await fetch("/create-event", {
+  method: "POST",
+  headers: authHeaders(),
+  body: JSON.stringify({ name, code, start_date: startUTC, end_date: endUTC })
+});
   const data = await response.json();
 
   if (data.success) {
@@ -79,8 +89,15 @@ submitEvent.addEventListener("click", async () => {
 // LOAD EVENTS
 async function loadEvents() {
   eventsGrid.innerHTML = "<p class='loading-text'>Loading sessions...</p>";
-  const response = await fetch("/events");
-  const data = await response.json();
+  try {
+    const response = await fetch("/events", {
+      headers: authHeaders()
+    });
+    if(response.status === 401 || response.status === 403) {
+      window.location.href = "login.html";
+      return;
+    }
+    const data = await response.json();
 
   if (!data.events || data.events.length === 0) {
     eventsGrid.innerHTML = "<p class='loading-text'>No active sessions. Create one!</p>";
@@ -106,6 +123,9 @@ async function loadEvents() {
     });
     eventsGrid.appendChild(card);
   });
+  } catch(err) {
+    eventsGrid.innerHTML = "<p class='loading-text'>Failed to load sessions.</p>";
+  }
 }
 // AUTO REMOVE EXPIRED EVENTS EVERY MINUTE
 setInterval(() => {

@@ -62,6 +62,25 @@ cancelAsk.addEventListener("click", () => {
   document.getElementById("nameInput").value = "";
 });
 
+// CHARACTER COUNTER
+questionInput.addEventListener("input", () => {
+  const remaining = 280 - questionInput.value.length;
+  let counter = document.getElementById("charCounter");
+  if(!counter) {
+    counter = document.createElement("span");
+    counter.id = "charCounter";
+    counter.style.cssText = "font-size:11px;color:#64748b;text-align:right;display:block;margin-top:4px;";
+    questionInput.parentElement.appendChild(counter);
+  }
+  counter.textContent = `${remaining} characters remaining`;
+  counter.style.color = remaining < 50 ? "#f59e0b" : remaining < 20 ? "#ef4444" : "#64748b";
+
+  // ENFORCE LIMIT
+  if(questionInput.value.length > 280) {
+    questionInput.value = questionInput.value.substring(0, 280);
+  }
+});
+
 // SUBMIT QUESTION
 submitAsk.addEventListener("click", async () => {
   const question = questionInput.value.trim();
