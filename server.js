@@ -7,8 +7,7 @@ import nodemailer from "nodemailer";
 import { createClient } from "@libsql/client";
 import { OAuth2Client } from "google-auth-library";
 import rateLimit from "express-rate-limit";
-import { JSDOM } from "jsdom";
-import DOMPurify from "isomorphic-dompurify";
+
 
 dotenv.config();
 
@@ -189,18 +188,37 @@ function containsOffensiveWord(text) {
 }
 
 // ==================== INPUT SANITIZATION ====================
+// Simple sanitizer — no external deps needed
 
 function sanitize(input) {
   if(typeof input !== "string") return "";
-  // STRIP HTML TAGS — prevents XSS
-  const clean = DOMPurify.sanitize(input, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
-  // TRIM AND LIMIT LENGTH
-  return clean.trim().substring(0, 1000);
+  return input
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;")
+    .trim()
+    .substring(0, 1000);
 }
 
 function sanitizeEmail(email) {
   if(typeof email !== "string") return "";
   return email.trim().toLowerCase().substring(0, 255);
+}
+
+function sanitizeShort(input, maxLen = 300) {
+  if(typeof input !== "string") return "";
+  return input
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#x27;")
+    .replace(/\//g, "&#x2F;")
+    .trim()
+    .substring(0, maxLen);
 }
 
 function sanitizeShort(input, maxLen = 300) {
