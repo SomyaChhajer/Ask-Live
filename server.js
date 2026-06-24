@@ -221,11 +221,6 @@ function sanitizeShort(input, maxLen = 300) {
     .substring(0, maxLen);
 }
 
-function sanitizeShort(input, maxLen = 300) {
-  if(typeof input !== "string") return "";
-  const clean = DOMPurify.sanitize(input, { ALLOWED_TAGS: [], ALLOWED_ATTR: [] });
-  return clean.trim().substring(0, maxLen);
-}
 // ==================== AUTH MIDDLEWARE ====================
 
 function verifyToken(req, res, next) {
